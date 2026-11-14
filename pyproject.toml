@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ebga_analyses"
+version = "1.0.0"
+description = "Analyses of the SBSA brain-age manuscript on OpenBHB"
+requires-python = ">=3.12"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+
+[tool.setuptools]
+packages = ["ebga_analyses"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "UP"]  # imports are grouped by hand (stdlib, third party, local)
+ignore = ["E741"]  # I and U follow the manuscript notation (eq. 7-8)

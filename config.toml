@@ -1,0 +1,101 @@
+# Configuration of every analysis in this repository.
+# Paths are relative to the repository root. Section numbers refer to the manuscript.
+
+[paths]
+data_dir = "data/OpenBHB"   # OpenBHB release (see README.md)
+results_dir = "results"     # everything the scripts write
+
+[data]
+batch_column = "siteXacq"   # acquisition batch: 64 site x protocol combinations
+validation_size = 0.20      # fixed train/validation split, stratified by batch
+
+# FreeSurfer Desikan-Killiany measures (68 regions each); "pooled" = both (Section 2.6)
+[data.feature_sets]
+volume = ["gray_matter_volume_mm^3"]
+thickness = ["average_thickness_mm"]
+pooled = ["gray_matter_volume_mm^3", "average_thickness_mm"]
+
+[cv]
+n_outer = 5
+n_inner = 5
+n_partitions = 5            # partition 0 = reference run; 1-4 = replicability only (Section 2.6.2)
+
+[harmonization]             # ComBat (Section 2.6); age enters only ComBat's fit
+age_model = "spline"        # "spline": cubic B-spline of age (knots at training-age quantiles);
+n_knots = 5                 # "linear": one age column (absorbs non-linear age effects into
+                            # the shifts of narrow-age batches; see todo.md)
+
+# Every random choice has a fixed seed, so rerunning any step gives identical results.
+[seeds]
+split = 42                  # train/validation split
+outer_folds = 0             # outer folds of partition k: outer_folds + k
+inner_folds = 1000          # inner folds of partition k, outer fold f: inner_folds + 10 * k + f
+# The four seeds below are offset by partition_stride * k + fold_stride * f, so that every
+# outer fold of every partition has its own seeds and no fitted model shares its initialization
+# or its random draws with another (no_combat uses k = 0, the full-cohort run k = n_partitions).
+training = 0                # SBSA run, and the inner-CV fits of every model
+members = 10                # MLP member i: members + i
+candidates = 50             # candidate draws from N(mu, sigma)
+shuffles = 60               # permutation importance
+partition_stride = 1000
+fold_stride = 100
+
+[compute]
+n_jobs = 8                  # parallel fits: grid points x inner splits, and MLP members
+device = "cuda"             # PyTorch device of the MLPs; falls back to "cpu" without a GPU
+
+[population]
+size = 16                   # P: SBSA candidates = MLP ensemble members (Section 2.7)
+
+[architecture.nonlinear]
+hidden_units = 32
+activation = "relu"
+
+[architecture.linear]       # linear-restricted family (Section 2.6.3)
+hidden_units = 1
+activation = "linear"
+
+[sbsa]                      # Section 2.1 and 2.5
+iterations = 2000           # inner and outer CV
+momentum = 0.9
+trust_radius = 0.1
+sigma_min = 0.001
+sigma_max = 1.0
+checkpoints = [500, 1000, 1500, 2000]   # stopping-point check (Section 2.6.2)
+
+[sbsa.grid]
+tau = [0.02, 0.05]          # softmax temperature
+eta = [0.02, 0.05]          # sigma learning rate
+
+[mlp]                       # full-batch gradient descent, MAE loss (Section 2.5)
+momentum = 0.9              # only for the +M+TR variants
+trust_radius = 0.1          # only for the +M+TR variants
+
+[mlp.grid]
+# Grids set by the grid-edge checks of 2026-11-14 (inner CV of the reference run).
+lr = [0.001, 0.01, 0.1, 0.3, 1.0]
+epochs = [2000, 5000, 8000, 12000, 16000]   # one checkpointed run; 2000 = SBSA's iterations
+alpha = [1, 10, 100, 300, 1000]             # L2 variants only
+
+[ridge]                     # scikit-learn Ridge: squared error with an L2 penalty
+alpha = [1, 10, 100, 300, 1000]             # same search range as the L2 MLPs
+
+[importance]
+n_repeats = 10              # shuffles per feature for permutation importance (Section 2.3)
+
+[confounders]               # Section 2.8
+all = ["sex", "magnetic_field_strength", "tiv"]
+thickness_only = ["gmv", "wmv", "csfv"]
+
+# Settings used by `python run_all.py --smoke`: same code path, tiny budgets,
+# written to results_smoke/ so a smoke run can never overwrite real results.
+[smoke]
+results_dir = "results_smoke"
+n_partitions = 2
+population_size = 4
+sbsa_iterations = 20
+sbsa_checkpoints = [10, 20]
+mlp_epochs = [10, 20]
+mlp_lr = [0.01]
+alpha = [1, 100]
+importance_repeats = 2
