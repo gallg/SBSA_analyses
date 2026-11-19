@@ -1,5 +1,5 @@
 """
-Replicability of the importance and uncertainty estimates (Section 2.6, point 2; Table 4).
+Replicability of the importance and uncertainty estimates (Section 2.6, point 2).
 
     per-subject u(s)    cross-fold: mean pairwise Spearman between the five reference fold
                         models; cross-partition: mean pairwise Spearman between the
@@ -26,11 +26,11 @@ import itertools
 import numpy as np
 import pandas as pd
 
-from ebga_analyses.config import ARCHITECTURES, FEATURE_SETS, load_config
-from ebga_analyses.populations import parameter_map, population_map
-from ebga_analyses.results import load_fold, population_models, save_table
-from ebga_analyses.stats import classes, pairwise_spearman, rank_residual, spearman
-from ebga_analyses.stats import split_half_reliability
+from sbsa_analyses.config import ARCHITECTURES, FEATURE_SETS, load_config
+from sbsa_analyses.populations import parameter_map, population_map
+from sbsa_analyses.results import load_fold, population_models, save_table
+from sbsa_analyses.stats import classes, pairwise_spearman, rank_residual, spearman
+from sbsa_analyses.stats import split_half_reliability
 
 
 def same_class(maps):

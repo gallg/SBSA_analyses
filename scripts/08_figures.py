@@ -1,5 +1,5 @@
 """
-Figure 1: the 2D map of the brain regions (Section 2.7), SBSA reference run.
+The 2D map of the brain regions (Section 2.7), SBSA reference run.
 
 Each region is placed at its importance I_j and importance-adjusted uncertainty, averaged over
 the five outer folds, with the median splits that define the four classes. The script reads
@@ -14,7 +14,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from ebga_analyses.config import load_config, results_path  # noqa: E402
+from sbsa_analyses.config import load_config, results_path  # noqa: E402
 
 
 def main():

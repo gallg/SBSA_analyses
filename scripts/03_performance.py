@@ -1,5 +1,5 @@
 """
-Predictive performance (Sections 2.5, 2.6 and 2.9; Table 1, Supplementary S1-S3, Table 5).
+Predictive performance (Sections 2.5, 2.6 and 2.9).
 
 Per outer fold and model: MAE, wMAE, R2 and MSE on the validation subjects, on the held-out
 fold and, to show under- or overfitting, on the training subjects. SBSA is scored on mu, Ridge
@@ -20,10 +20,10 @@ and training_cost.csv.
 import pandas as pd
 from scipy import stats
 
-from ebga_analyses.config import load_config
-from ebga_analyses.results import iter_folds, load_fold, models_in, save_table
-from ebga_analyses.results import scored_prediction
-from ebga_analyses.stats import benjamini_hochberg, corrected_ttest, metrics
+from sbsa_analyses.config import load_config
+from sbsa_analyses.results import iter_folds, load_fold, models_in, save_table
+from sbsa_analyses.results import scored_prediction
+from sbsa_analyses.stats import benjamini_hochberg, corrected_ttest, metrics
 
 METRICS = ["mae", "wmae", "r2", "mse", "mae_population_mean"]
 EVALUATION_SETS = {"eval": "validation", "heldout": "heldout_fold", "train": "training"}

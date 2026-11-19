@@ -1,5 +1,5 @@
 """
-Per-subject uncertainty u(s) (Section 2.7, "Individual predictions"; Table 3, Table 5).
+Per-subject uncertainty u(s) (Section 2.7, "Individual predictions").
 
 For every model with a population (SBSA: P candidates of one run; each MLP variant: its P
 members), per outer fold on the validation subjects:
@@ -20,10 +20,10 @@ subject_uncertainty_folds.csv and subject_uncertainty_summary.csv.
 import numpy as np
 import pandas as pd
 
-from ebga_analyses.config import load_config
-from ebga_analyses.data import load_subjects
-from ebga_analyses.results import iter_folds, load_fold, save_table, subject_table
-from ebga_analyses.stats import age_corrected_gap, rank_residual, spearman
+from sbsa_analyses.config import load_config
+from sbsa_analyses.data import load_subjects
+from sbsa_analyses.results import iter_folds, load_fold, save_table, subject_table
+from sbsa_analyses.stats import age_corrected_gap, rank_residual, spearman
 
 KEYS = ["arch", "features", "setting", "fold"]
 

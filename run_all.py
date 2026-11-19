@@ -25,8 +25,8 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from ebga_analyses.config import FEATURE_SETS, load_config, results_path
-from ebga_analyses.results import training_dir
+from sbsa_analyses.config import FEATURE_SETS, load_config, results_path
+from sbsa_analyses.results import training_dir
 
 ROOT = Path(__file__).resolve().parent
 STEPS = {
@@ -76,10 +76,13 @@ class Log:
     def run(self, name, script, *args):
         """Run one script, passing its output to the log; record its outcome and duration."""
         command = [sys.executable, "-u", str(ROOT / "scripts" / script), *args]
+        # The scripts import sbsa_analyses from the repository root, installed or not.
+        env = {**os.environ, "PYTHONPATH": os.pathsep.join(
+            p for p in (str(ROOT), os.environ.get("PYTHONPATH")) if p)}
         self.write(f"--- {name}: started")
         start = time.time()
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   text=True)
+                                   text=True, env=env)
         for line in process.stdout:
             self.write("    " + line.rstrip())
         ok = process.wait() == 0

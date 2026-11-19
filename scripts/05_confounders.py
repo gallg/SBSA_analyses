@@ -1,5 +1,5 @@
 """
-Confounder tests (Section 2.8; Table 2, Supplementary S4-S5, Table 5).
+Confounder tests (Section 2.8).
 
 Per outer fold on the validation subjects, for the reference and the no-ComBat models:
 
@@ -18,11 +18,11 @@ Writes results/tables/confounders_folds.csv and confounders_summary.csv.
 import numpy as np
 import pandas as pd
 
-from ebga_analyses.config import load_config
-from ebga_analyses.data import load_subjects
-from ebga_analyses.results import iter_folds, load_fold, models_in, save_table
-from ebga_analyses.results import scored_prediction
-from ebga_analyses.stats import benjamini_hochberg, regression
+from sbsa_analyses.config import load_config
+from sbsa_analyses.data import load_subjects
+from sbsa_analyses.results import iter_folds, load_fold, models_in, save_table
+from sbsa_analyses.results import scored_prediction
+from sbsa_analyses.stats import benjamini_hochberg, regression
 
 
 def zscore(x):

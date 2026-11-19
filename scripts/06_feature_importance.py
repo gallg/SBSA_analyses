@@ -28,11 +28,11 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from ebga_analyses.config import ARCHITECTURES, FEATURE_SETS, load_config
-from ebga_analyses.data import load_features, load_split, load_subjects
-from ebga_analyses.populations import parameter_map, population_map
-from ebga_analyses.results import load_fold, models_in, save_table, training_dir
-from ebga_analyses.stats import classes, rank_residual, spearman
+from sbsa_analyses.config import ARCHITECTURES, FEATURE_SETS, load_config
+from sbsa_analyses.data import load_features, load_split, load_subjects
+from sbsa_analyses.populations import parameter_map, population_map
+from sbsa_analyses.results import load_fold, models_in, save_table, training_dir
+from sbsa_analyses.stats import classes, rank_residual, spearman
 
 
 def region_properties(cfg, arch, feature_set, fold, arrays, X_raw, ids, subjects):

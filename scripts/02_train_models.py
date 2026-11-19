@@ -36,14 +36,14 @@ import torch
 from joblib import Parallel, delayed
 from sklearn.linear_model import Ridge
 
-from ebga_analyses.config import MLP_VARIANTS, fold_seeds, load_config
-from ebga_analyses.data import check_batches, inner_folds, load_features, load_split, load_subjects
-from ebga_analyses.models import MLPRegressor, resolve_device
-from ebga_analyses.models import predict_population, sample_population
-from ebga_analyses.populations import permutation_importance, shuffles
-from ebga_analyses.preprocessing import make_preprocessing
-from ebga_analyses.results import training_dir
-from ebga_analyses.tuning import mlp_params, sbsa, tune_mlp, tune_ridge, tune_sbsa
+from sbsa_analyses.config import MLP_VARIANTS, fold_seeds, load_config
+from sbsa_analyses.data import check_batches, inner_folds, load_features, load_split, load_subjects
+from sbsa_analyses.models import MLPRegressor, resolve_device
+from sbsa_analyses.models import predict_population, sample_population
+from sbsa_analyses.populations import permutation_importance, shuffles
+from sbsa_analyses.preprocessing import make_preprocessing
+from sbsa_analyses.results import training_dir
+from sbsa_analyses.tuning import mlp_params, sbsa, tune_mlp, tune_ridge, tune_sbsa
 
 
 def setting_plan(arch, setting, n_partitions):

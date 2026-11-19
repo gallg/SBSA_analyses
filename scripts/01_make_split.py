@@ -10,9 +10,9 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-from ebga_analyses.config import load_config
-from ebga_analyses.data import inner_folds, load_subjects, make_split
-from ebga_analyses.results import save_table
+from sbsa_analyses.config import load_config
+from sbsa_analyses.data import inner_folds, load_subjects, make_split
+from sbsa_analyses.results import save_table
 
 
 def check_balance(cfg, split):

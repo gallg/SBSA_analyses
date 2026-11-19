@@ -7,9 +7,9 @@ manuscript's Methods.
 ## Setup
 
 ```bash
-python3.12 -m venv .venv && source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-pip install -e .        # the ebga_analyses package used by the scripts
+pip install -e .        # sbsa_analyses, to run single scripts (run_all.py does not need it)
 ```
 
 The MLPs are trained on the device set in `config.toml` (`[compute] device`, default `"cuda"`);
@@ -122,7 +122,7 @@ Non-linear: 7 settings, linear-restricted: 6, so 39 nested cross-validations in 
 | `05_confounders.py` | 2.8 | `confounders_*.csv` |
 | `06_feature_importance.py` | 2.3, 2.7 brain regions | `feature_maps.csv`, `importance_divergence.csv`, `uncertainty_correlates.csv` |
 | `07_replicability.py` | 2.6 point 2 | `replicability.csv`, `in_out_of_sample.csv` (full-cohort run for SBSA; reference run for SBSA and the MLP ensembles) |
-| `08_figures.py` | Figure 1 | `results/figures/` |
+| `08_figures.py` | 2.7 brain regions (2D map) | `results/figures/` |
 
 ## Results layout
 
@@ -153,7 +153,7 @@ to the minimum.
 - Age is never a model input. It is the training target, ComBat's fit covariate (training
   subjects only), and a regressor in the analyses after prediction. ComBat's transform removes
   only each batch's location shift, so it never uses the age of the subjects it transforms
-  (`ebga_analyses/preprocessing.py`).
+  (`sbsa_analyses/preprocessing.py`).
 - The split and every outer and inner fold are stratified by acquisition batch, so every batch
   is in every training part; `01_make_split.py` checks it and the training script fails if a
   batch is ever missing.
@@ -176,7 +176,7 @@ to the minimum.
   results on the same machine and device; on a GPU the MLPs use deterministic algorithms. Every
   outer fold of every partition has its own seeds, so that no two fitted models share their
   initialization or their random draws.
-- `neurocombat-sklearn` 0.1.3 is used through a small adapter (`ebga_analyses/preprocessing.py`),
+- `neurocombat-sklearn` 0.1.3 is used through a small adapter (`sbsa_analyses/preprocessing.py`),
   which also maps the library's `OneHotEncoder(sparse=...)` call to current scikit-learn.
 
 ## License
