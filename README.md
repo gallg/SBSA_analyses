@@ -1,4 +1,5 @@
-# EBGA analyses
+## [Manuscript title]
+## [authors]
 
 Code for the analyses of the manuscript on the SBSA optimizer and its importance and
 uncertainty estimates for brain-age prediction on OpenBHB. Section numbers below refer to the
